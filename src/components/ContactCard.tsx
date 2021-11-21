@@ -4,6 +4,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import "./ContactCard.css";
+import { Link } from "react-router-dom";
 
 type Props = {
   info: {
@@ -11,25 +12,34 @@ type Props = {
     email: string;
     name: string;
     img: string;
+    id: string;
   };
 };
 export default function ContactCard({ info }: Props): ReactElement {
   return (
-    <ListItem alignItems="flex-start">
-      <ListItemAvatar>
-        <Avatar alt="profilepic" src={info.img} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={info.name}
-        secondary={
-          <Fragment>
-            <a href={`mailto:${info.email}`} className="ContactEmail">
-              {info.email}
-            </a>
-            <span>{info.cell}</span>
-          </Fragment>
-        }
-      />
-    </ListItem>
+    <Link className="ContactLink" to={`/${info.id}`}>
+      <ListItem
+        alignItems="flex-start"
+        sx={{
+          "&:hover": {
+            backgroundColor: "#ECECEC",
+            cursor: "pointer",
+          },
+        }}
+      >
+        <ListItemAvatar>
+          <Avatar alt="profilepic" src={info.img} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={info.name}
+          secondary={
+            <Fragment>
+              <span className="ContactEmail">{info.email}</span>
+              <span>{info.cell}</span>
+            </Fragment>
+          }
+        />
+      </ListItem>
+    </Link>
   );
 }

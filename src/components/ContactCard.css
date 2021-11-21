@@ -2,3 +2,8 @@
   margin-right: 10px;
   color: #1c78d3;
 }
+
+.ContactLink {
+  color: inherit;
+  text-decoration: none;
+}
