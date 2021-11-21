@@ -1,4 +1,5 @@
-import React, { useEffect, useState, ReactElement } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState, ReactElement, Fragment } from "react";
 import "./App.css";
 import ContactCard from "./components/ContactCard";
 import SearchField from "./components/SearchField";
@@ -10,9 +11,9 @@ function App(): ReactElement {
     info: Record<string, any>;
     results: Results;
   };
- 
+
   const [data, setData] = useState<Results | undefined>(undefined);
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
     async function fetchData() {
@@ -28,27 +29,31 @@ function App(): ReactElement {
       <SearchField value={search} setValue={setSearch} />
       <List>
         {data &&
-          data.filter(({name}) => {
-            if (search) {
-              return name.first.toLowerCase().startsWith(search.toLowerCase()) || name.last.toLowerCase().startsWith(search.toLowerCase());
-            }
-            return true;
-            }).map(({ login, cell, email, name, picture }, i) => (
-            <>
-              <ContactCard
-                key={login.uuid}
-                info={{
-                  cell,
-                  email,
-                  name: `${name.first} ${name.last}`,
-                  img: picture.thumbnail,
-                }}
-              />
-              {i !== data.length - 1 && (
-                <Divider variant="inset" component="li" />
-              )}
-            </>
-          ))}
+          data
+            .filter(({ name }) => {
+              if (search) {
+                return (
+                  name.first.toLowerCase().startsWith(search.toLowerCase()) ||
+                  name.last.toLowerCase().startsWith(search.toLowerCase())
+                );
+              }
+              return true;
+            })
+            .map(({ login, cell, email, name, picture }, i) => (
+              <Fragment key={login.uuid}>
+                <ContactCard
+                  info={{
+                    cell,
+                    email,
+                    name: `${name.first} ${name.last}`,
+                    img: picture.thumbnail,
+                  }}
+                />
+                {i !== data.length - 1 && (
+                  <Divider variant="inset" component="li" />
+                )}
+              </Fragment>
+            ))}
       </List>
     </div>
   );
