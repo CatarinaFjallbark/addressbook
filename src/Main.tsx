@@ -4,9 +4,8 @@ import "./Main.css";
 import ContactCard from "./components/ContactCard";
 import SearchField from "./components/SearchField";
 import { Divider, List } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { actionTypes, Person } from "./store/types";
-
 
 function App(): ReactElement {
   type Results = Record<string, any>[];
@@ -15,16 +14,15 @@ function App(): ReactElement {
     results: Results;
   };
 
-  const [data, setData] = useState<Results | undefined>(undefined);
   const [search, setSearch] = useState<string>("");
   const dispatch = useDispatch();
-  const state = useSelector((state: Person[]) => state)
+  const state = useSelector((state: Person[]) => state);
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch("https://randomuser.me/api/?results=20");
       const json = (await response.json()) as Response;
-      dispatch({ type: actionTypes.loadData, data: json.results })
+      dispatch({ type: actionTypes.loadData, data: json.results });
       console.log("data", json.results);
     }
     //To avoid loading a new set of data when navigating back with React Router
