@@ -1,6 +1,9 @@
 import React, { useEffect, useState, ReactElement } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import ContactCard from "./components/ContactCard";
+import SearchField from "./components/SearchField";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
 
 function App(): ReactElement {
   type Results = Record<string, any>[];
@@ -23,20 +26,26 @@ function App(): ReactElement {
   }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchField />
+      <List>
+        {data &&
+          data.map(({ login, cell, email, name, picture }, i) => (
+            <>
+              <ContactCard
+                key={login.uuid}
+                info={{
+                  cell,
+                  email,
+                  name: `${name.first} ${name.last}`,
+                  img: picture.thumbnail,
+                }}
+              />
+              {i !== data.length - 1 && (
+                <Divider variant="inset" component="li" />
+              )}
+            </>
+          ))}
+      </List>
     </div>
   );
 }

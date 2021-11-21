@@ -1,0 +1,8 @@
+.SearchField {
+  width: 100%;
+  padding: 10px;
+}
+
+.SearchField .SearchInput {
+  width: 98%;
+}
