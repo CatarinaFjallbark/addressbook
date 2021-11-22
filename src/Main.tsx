@@ -4,6 +4,7 @@ import "./Main.css";
 import ContactCard from "./components/ContactCard";
 import SearchField from "./components/SearchField";
 import Sort from "./components/Sort";
+import Sorry from "./components/Sorry";
 import { Divider, List } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { actionTypes, Person } from "./store/types";
@@ -35,10 +36,14 @@ function App(): ReactElement {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("https://randomuser.me/api/?results=20");
-      const json = (await response.json()) as Response;
-      dispatch({ type: actionTypes.loadData, data: json.results });
-      console.log("data", json.results);
+      try {
+        const response = await fetch("https://randomuser.me/api/?results=20");
+        const json = (await response.json()) as Response;
+        dispatch({ type: actionTypes.loadData, data: json.results });
+        console.log("data", json.results);
+      } catch (e) {
+        console.error("test", e);
+      }
     }
     //To avoid loading a new set of data when navigating back with React Router
     if (state.length === 0) {
@@ -53,7 +58,7 @@ function App(): ReactElement {
       </div>
       <nav>
         <List>
-          {state &&
+          {state && state.length > 0 ? (
             state
               .filter(({ name }) => {
                 if (search) {
@@ -79,7 +84,10 @@ function App(): ReactElement {
                     <Divider variant="inset" component="li" />
                   )}
                 </Fragment>
-              ))}
+              ))
+          ) : (
+            <Sorry />
+          )}
         </List>
       </nav>
     </div>
