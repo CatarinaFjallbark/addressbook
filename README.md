@@ -1,7 +1,9 @@
 # Welcome
+
 This is my simple address book created within eight hours. Enjoy!
 
 ## Run locally
+
 ### `yarn start`
 
 Runs the app in the development mode.\

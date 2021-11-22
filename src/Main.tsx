@@ -3,6 +3,7 @@ import React, { useEffect, useState, ReactElement, Fragment } from "react";
 import "./Main.css";
 import ContactCard from "./components/ContactCard";
 import SearchField from "./components/SearchField";
+import Sort from "./components/Sort";
 import { Divider, List } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { actionTypes, Person } from "./store/types";
@@ -14,9 +15,23 @@ function App(): ReactElement {
     results: Results;
   };
 
+  const sort = (state: Person[]): Person[] => {
+    return state.sort((a, b) => {
+      if (asc) {
+        if (a.name.first < b.name.first) return -1;
+        if (a.name.first > b.name.first) return 1;
+      } else {
+        if (a.name.first > b.name.first) return -1;
+        if (a.name.first < b.name.first) return 1;
+      }
+      return 0;
+    });
+  };
+
   const [search, setSearch] = useState<string>("");
+  const [asc, toggleAsc] = useState<boolean>(true);
   const dispatch = useDispatch();
-  const state = useSelector((state: Person[]) => state);
+  const state = useSelector((state: Person[]) => sort(state));
 
   useEffect(() => {
     async function fetchData() {
@@ -31,8 +46,11 @@ function App(): ReactElement {
     }
   }, []);
   return (
-    <div className="App">
+    <div className="Main">
       <SearchField value={search} setValue={setSearch} />
+      <div className="SortContainer">
+        <Sort up={!asc} toggle={() => toggleAsc(!asc)} />
+      </div>
       <nav>
         <List>
           {state &&
