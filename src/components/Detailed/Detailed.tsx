@@ -11,7 +11,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { Person } from "../store/types";
+import { Person } from "../../store/types";
 import {
   Card,
   CardActions,
@@ -19,10 +19,11 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import Sorry from "./Sorry";
+import Sorry from "../Sorry/Sorry";
 
 export default function ContactCard(): ReactElement {
   const params = useParams();
+  //Returns the selected person from Redux
   const state = useSelector((state: Person[]) =>
     state.find((person) => person.login.uuid === params.id)
   );

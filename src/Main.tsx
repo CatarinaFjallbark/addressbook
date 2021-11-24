@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, ReactElement, Fragment } from "react";
 import "./Main.css";
-import ContactCard from "./components/ContactCard";
-import SearchField from "./components/SearchField";
-import Sort from "./components/Sort";
-import Sorry from "./components/Sorry";
+import ContactCard from "./components/ContactCard/ContactCard";
+import SearchField from "./components/SearchField/SearchField";
+import Sort from "./components/Sort/Sort";
+import Sorry from "./components/Sorry/Sorry";
 import { Divider, List } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { actionTypes, Person } from "./store/types";
@@ -30,6 +30,7 @@ function App(): ReactElement {
   };
 
   const [search, setSearch] = useState<string>("");
+  const [showError, setShowError] = useState<boolean>(false);
   const [asc, toggleAsc] = useState<boolean>(true);
   const dispatch = useDispatch();
   const state = useSelector((state: Person[]) => sort(state));
@@ -40,9 +41,9 @@ function App(): ReactElement {
         const response = await fetch("https://randomuser.me/api/?results=20");
         const json = (await response.json()) as Response;
         dispatch({ type: actionTypes.loadData, data: json.results });
-        console.log("data", json.results);
       } catch (e) {
-        console.error("test", e);
+        setShowError(true);
+        console.error(e);
       }
     }
     //To avoid loading a new set of data when navigating back with React Router
@@ -86,7 +87,7 @@ function App(): ReactElement {
                 </Fragment>
               ))
           ) : (
-            <Sorry />
+            <>{showError && <Sorry />}</>
           )}
         </List>
       </nav>
