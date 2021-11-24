@@ -16,6 +16,7 @@ function App(): ReactElement {
     results: Results;
   };
 
+  // Function for sorting list
   const sort = (state: Person[]): Person[] => {
     return state.sort((a, b) => {
       if (asc) {
@@ -37,6 +38,7 @@ function App(): ReactElement {
 
   useEffect(() => {
     async function fetchData() {
+      //Fetching data and add it to Redux state
       try {
         const response = await fetch("https://randomuser.me/api/?results=20");
         const json = (await response.json()) as Response;
