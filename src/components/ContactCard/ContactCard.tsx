@@ -17,7 +17,7 @@ type Props = {
 };
 export default function ContactCard({ info }: Props): ReactElement {
   return (
-    <Link className="ContactLink" to={`/${info.id}`}>
+    <Link className="ContactLink" to={`/addressbook/${info.id}`}>
       <ListItem
         alignItems="flex-start"
         sx={{

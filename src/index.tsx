@@ -16,8 +16,8 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path=":id" element={<Detailed />} />
+          <Route path="/addressbook" element={<Main />} />
+          <Route path="/addressbook/:id" element={<Detailed />} />
         </Routes>
       </BrowserRouter>
     </Provider>
